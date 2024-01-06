@@ -1,0 +1,11 @@
+Let's assume that we are designing API for sending of the Internet Group Management Protocol version 2 (IGMPv2)
+packets over the network.
+There are following simple requirements that should be fulfilled by the designed and implemented service API:
+
+\begin{itemize}
+    \item Service must be able to serialize IGMPv2 packets into the output buffer.
+    \item Service must be able to serialize all types of IGMPv2 packets - Membership Query, Membership Report,
+    and Leave Group message.
+    \item Parameters of the IGMPv2 packet should be configurable by the client using human-readable values.
+    \item If client does not specify any value for the parameter, default values should be used.
+\end{itemize}
