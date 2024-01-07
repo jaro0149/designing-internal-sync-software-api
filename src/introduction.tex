@@ -4,15 +4,15 @@ Making bad decisions during the design phase can lead to a lot of issues in the 
 increased maintenance cost, decreased flexibility of API, and stopping next API evolution.
 These issues are also multiplied by the fact that API is used by other components in the system.
 
-This article focuses on the most commonly used design patterns and approaches that can be leveraged during creation
+This guide focuses on the most commonly used design patterns and approaches that can be leveraged during creation
 or refactoring of internal synchronous software API. Every approach has its own benefits and drawbacks and should be
 used in the right context.
 By internal API we mean API that is used by other components in the same process between different software components
 such as modules or classes, usually described by some interfaces.
 However, some of the described patterns can be also used for modeling of external or asynchronous interfaces.
 
-The article focuses more on the structure of the API than how components are communicating with each other.
-Also, the article does not focus on the implementation details of the API such as specific technologies or languages,
+The guide focuses more on the structure of the API than how components are communicating with each other.
+Also, the document does not focus on the implementation details of the API such as specific technologies or languages,
 but rather on the general design principles.
 
 The paper is structured as follows.
