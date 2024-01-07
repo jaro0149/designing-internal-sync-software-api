@@ -1,23 +1,24 @@
-Modeling of software API (Application Programming Interface) is essential part of the software design
+Modeling a software API (Application Programming Interface) is an essential part of the software design
 and development process.
-Making bad decisions during the design phase can lead to a lot of issues in the future including
-increased maintenance cost, decreased flexibility of API, and stopping next API evolution.
-These issues are also multiplied by the fact that API is used by other components in the system.
+Making poor decisions during the design phase can lead to numerous issues in the future, including increased
+maintenance costs, decreased flexibility of the API, and hindering the evolution of the next API\@.
+These issues are further compounded by the fact that the API is utilized by other components in the system.
 
-This guide focuses on the most commonly used design patterns and approaches that can be leveraged during creation
-or refactoring of internal synchronous software API. Every approach has its own benefits and drawbacks and should be
-used in the right context.
-By internal API we mean API that is used by other components in the same process between different software components
-such as modules or classes, usually described by some interfaces.
-However, some of the described patterns can be also used for modeling of external or asynchronous interfaces.
+This guide focuses on the most commonly used design patterns and approaches that can be leveraged during
+the creation or refactoring of internal synchronous software APIs. Each approach has its own benefits
+and drawbacks and should be employed in the right context.
+When we refer to an internal API, we mean an API that is used by other components in the same process between
+different software components, such as modules or classes, typically described by specific interfaces.
+However, some of the described patterns can also be applied to model external or asynchronous interfaces.
 
-The guide focuses more on the structure of the API than how components are communicating with each other.
-Also, the document does not focus on the implementation details of the API such as specific technologies or languages,
-but rather on the general design principles.
+The guide emphasizes the structure of the API more than how components communicate with each other.
+Additionally, the document does not delve into the implementation details of the API,
+such as specific technologies or languages, but rather focuses on general design principles.
 
 The paper is structured as follows.
-The first part describes the requirements and analysis of target domain that will be used as the example.
-Next sections describe design approaches and related design patterns demonstrated on the example using UML diagrams
-starting from the Singleton Interface Method approach, through object-oriented approaches,
-and ending with the model-driven API\@.
-The last part summarizes the content using metamodel view on all the approaches.
+The first part describes the requirements and analysis of the target domain, which will be used as an example.
+The subsequent sections detail design approaches and related design patterns,
+demonstrated on the example using UML diagrams.
+This starts with the Singleton Interface Method approach, progresses through object-oriented approaches,
+and concludes with the Model-Driven API\@.
+The final part provides a summary of the content, presenting a metamodel view of all the approaches.
