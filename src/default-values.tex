@@ -1,13 +1,13 @@
-Some programming languages allow specification of default values directly in the method signature.
-In this case, if the caller does not specify the value of the parameter, the default value is used.
+Some programming languages enable the specification of default values directly in the method signature.
+In this scenario, if the caller does not provide a value for a parameter, the default value is utilized.
 This feature is often combined with named parameters.
-Another approach is to specify optional parameters at the end of the parameter list.
+Alternative approach involves placing optional parameters at the end of the parameter list.
 
-Figure~\ref{fig:def_specification_of_default_values} shows example with specified default values in the interface
-method signature.
-For demonstration purposes, 2 new parameters have been added: \textit{packetLogger} used for logging serialized
-packets and \textit{addressResolver} used for resolution of named addresses into IP address representation.
-In this example, default values are assigned to the \textit{maxResponseTime}, \textit{packetLogger},
+In Figure~\ref{fig:def_specification_of_default_values}, an example showcases specified default values
+in the interface method signature.
+For illustrative purposes, two new parameters are introduced: \textit{packetLogger} for logging serialized packets
+and \textit{addressResolver} for resolving named addresses into IP address representations.
+Default values are assigned to the \textit{maxResponseTime}, \textit{packetLogger},
 and \textit{addressResolver} parameters.
 
 \begin{figure}[!htb]
@@ -19,23 +19,25 @@ and \textit{addressResolver} parameters.
 \end{figure}
 
 \begin{itemize}
-    \item \textit{maxResponseTime}: It has a primitive \textit{Integer} type.
-    In this case, it is possible to directly specify the default value without creation of additional entities.
-    \item \textit{packetLogger}: This parameter has PacketLogger type which is the next interface.
-    The default value is set to \textit{PacketLogger.NULL\_LOGGER} constant which follows Null Object design pattern.
-    Figure~\ref{fig:def_null_logger} demonstrates the implementation of this constant.
-    \textit{NULL\_LOGGER} is the instance of the PacketLogger subclass \textit{NullPacketLogger} that does
-    not log anything, just ignores all input calls.
-    If the API did not use Null Object design pattern, it would be necessary to handle the null reference in the
-    implementation of the \textit{writeQueryMembershipPacket} method.
-    \item \textit{addressResolver}: The parameter is of type AddressResolver that is described by distinct interface.
-    The default value is set to \textit{AddressResolver.DEFAULT\_RESOLVER} constant which represents instance of dummy
-    implementation of the \textit{AddressResolver} interface.
-    It does not try to resolve the address and only returns the input address,
-    if it matches the pattern of the IP address.
-    Figure~\ref{fig:def_default_address_resolver} shows the implementation of the constant in detail.
-    It is more complex than the Null Object design pattern since implementation contains at least
-    simple pattern-matching logic.
+    \item \textit{maxResponseTime}:
+    This primitive \textit{Integer} type parameter allows direct specification of the default value without the need
+    for additional entities.
+    \item \textit{packetLogger}:
+    This parameter is of type \textit{PacketLogger} which is modeled by another interface.
+    The default value of the parameter is set to \textit{PacketLogger.NULL\_LOGGER},
+    a constant that follows the Null Object design pattern.
+    Figure~\ref{fig:def_null_logger} demonstrates the implementation of this constant, representing an instance
+    of the \textit{PacketLogger} subclass \textit{NullPacketLogger} that does not log anything, merely ignoring
+    all input calls.
+    This implementation mitigates the need to handle null references in the \textit{writeQueryMembershipPacket} method.
+    \item \textit{addressResolver}:
+    The parameter, of type \textit{AddressResolver}, adheres to a distinct interface.
+    The default value is set to \textit{AddressResolver.DEFAULT\_RESOLVER}, a constant representing an instance
+    of a dummy subclass of the \textit{AddressResolver} interface.
+    The implementation of this subclass does not attempt to resolve the address and only returns the input address
+    if it matches the pattern of an IP address.
+    Figure~\ref{fig:def_default_address_resolver} provides view on implementation of the constant,
+    which is more complex than the Null Object design pattern, featuring at least simple pattern-matching logic.
 \end{itemize}
 
 \begin{figure}[!htb]
@@ -57,35 +59,42 @@ and \textit{addressResolver} parameters.
 Benefits of the Default Values approach:
 
 \begin{itemize}
-    \item Improved readability of the method signature - it is clear which parameters are optional and what values
-    are used if these parameters are not specified by caller.
-    Definition of the method itself is used as a documentation.
-    \item Removed handling of null references or values in the implementation of the interface method
-    (based on separation of concerns principle).
-    It usually consists of repetitive conditional statements that check whether the parameter is null or not.
-    Code is more readable and easier to maintain.
+    \item Improved readability of method signature:
+    The method signature becomes more readable, making it clear which parameters are optional and the values
+    used if not specified by the caller.
+    The method definition serves as documentation, enhancing code clarity.
+    \item Removal of null reference handling in implementation:
+    By separating concerns, the handling of null references or values in the implementation of the interface method
+    is eliminated.
+    This often involves repetitive conditional statements checking whether a parameter is null or not,
+    resulting in more readable and maintainable code.
 \end{itemize}
 
 Drawbacks of the Default Values approach:
 
 \begin{itemize}
-    \item Limited flexibility - Default values are static and cannot be changed at runtime.
-    This can limit the flexibility of your code, especially if you need to change these values based on certain
-    conditions or configurations.
-    \item For some complex types it is not always feasible to create a default implementation.
-    If type defines method that returns value of some type, it is also necessary to mock return type.
-    Also in some languages it is possible to mark a type or method as final, so it is not possible to create
-    a subclass from it or override implementation of specific method.
-    If type is defined in the external library, we cannot easily update its constraints.
+    \item Limited flexibility:
+    Default values are static and cannot be changed at runtime.
+    This limitation can impact the flexibility of your code, especially if there is a need to alter these values
+    based on specific conditions or configurations.
+    \item Challenges with complex types:
+    For some complex types, creating a default implementation may not always be feasible.
+    If a type defines a method that returns a value of a certain type, mocking the return type becomes necessary.
+    Additionally, in some languages, a type or method can be marked as final, preventing the creation of subclasses
+    or the override of specific method implementations.
+    If the type is defined in an external library, updating its constraints can be challenging.
 \end{itemize}
 
 Common use-cases of the Default Values approach:
 
 \begin{itemize}
-    \item Specification of default values for optional parameters that are not used frequently by clients
-    deployed in production environment.
-    These parameters can be used, for example, in the debugging mode or in the testing environment.
-    \item Avoiding extensive overloading of the method signature - decreasing impact of API Rooting issue.
-    If there are many optional parameters, it would be unpractical to create all possible combinations of methods.
-    Additional interface methods increase maintenance cost.
+    \item Specification of default values for infrequently used parameters:
+    The Default Values approach is useful for specifying default values for optional parameters that are not frequently
+    used by clients deployed in a production environment.
+    These parameters might be utilized in debugging modes or testing environments.
+    \item Avoiding extensive overloading of method signatures:
+    It helps in decreasing the impact of the API Rooting issue by avoiding extensive overloading
+    of the method signature.
+    In scenarios with numerous optional parameters, creating all possible combinations of methods becomes impractical.
+    Additional interface methods could significantly increase maintenance costs.
 \end{itemize}
