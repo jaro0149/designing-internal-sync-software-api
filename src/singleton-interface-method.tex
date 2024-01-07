@@ -1,14 +1,15 @@
-Singleton Interface method is based on fitting of all the parameters and customizations into single method definition.
-Usually some of the parameters are nullable because there is some default value that is used in case
-of the null value (specified in the business logic) or the parameter is not used at all in combination
-with other parameters (for example, maximum response time is not used in case of the Leave Group message).
-It is the simplest approach that can be used for designing of the API\@.
+The Singleton Interface Method is based on consolidating all parameters and customizations into a single
+method definition.
+Typically, some parameters are nullable due to the existence of a default value, employed in case of a null value
+(as specified in the business logic) or when the parameter is not used in combination with others.
+For instance, the maximum response time is not utilized in the context of the Leave Group message.
+This approach represents the simplest way to design an API\@.
 
-The Figure~\ref{fig:sing_write_igmp_packet} shows the activity diagram with interface definition of the
-method for writing of the IGMPv2 packet into the output stream.
-All parameters including type of the message are squashed into the single interface method.
-Only parameters \textit{igmpType} and \textit{outputStream} are mandatory, other parameters may contain null values
-depending on the value of \textit{igmpType} parameter.
+Figure~\ref{fig:sing_write_igmp_packet} illustrates the activity diagram featuring the interface definition
+of the method for writing an IGMPv2 packet into the output stream.
+All parameters, including the message type, are condensed into a singular interface method.
+Only the parameters \textit{igmpType} and \textit{outputStream} are mandatory; others may contain \textit{null} values
+depending on the \textit{igmpType} parameter's value.
 
 \begin{figure}[!htb]
     \centering
@@ -18,12 +19,12 @@ depending on the value of \textit{igmpType} parameter.
     \label{fig:sing_write_igmp_packet}
 \end{figure}
 
-Activity diagram also contains more complex activities (write maximum response time and write group address)
-that must be decomposed into the smaller diagrams.
-For example, content of the write maximum response time activity is depicted
-in the Figure~\ref{fig:sing_write_max_response_time}.
-Since the whole logic is implemented under common interface method, the business logic contains a lot of branching
-including conditional statements that are used for handling invalid combinations of the input parameters.
+The activity diagram also encompasses more intricate activities, such as writing the maximum response time
+and group address, which must be broken down into smaller models.
+For example, Figure~\ref{fig:sing_write_max_response_time} presents the content of the
+\textit{write maximum response time} activity.
+As the entire logic is implemented under a common interface method, the business logic involves numerous branches,
+including conditional statements to handle invalid combinations of input parameters.
 
 \begin{figure}[!htb]
     \centering
@@ -36,39 +37,45 @@ including conditional statements that are used for handling invalid combinations
 Benefits of the Singleton Interface Method:
 
 \begin{itemize}
-    \item Implementation of the interface is straightforward and simple.
-    There is no need to implement any additional software entities.
-    \item Single point of the contact for the API client may be beneficial in some cases.
-    For example, client may represent just some additional proxy layer on top of the API that
-    already receives all the required parameters from the other components in the system.
-    Further decomposition of the layer would introduce unnecessary complexity in the proxy layer
-    (calling correct method exposed by service based on some conditions).
+    \item
+    Definition of the interface is straightforward and simple, eliminating the need for additional software entities.
+    \item
+    Serving as a single point of contact for the API client can be advantageous in certain cases.
+    For instance, the client may act as an additional proxy layer on top of the API,
+    receiving all necessary parameters from other components in the system.
+    Further layer decomposition would introduce unnecessary complexity in the proxy layer,
+    requiring the correct method to be called based on specific conditions.
 \end{itemize}
 
 Drawbacks of the Singleton Interface Method:
 
 \begin{itemize}
-    \item Appearance of God Classes/Functions - All the logic is implemented in single method which is usually
-    very complex with a lot of branching.
-    It is usually difficult to understand the logic and maintain it in the future.
-    \item Evolution of the API is very hard - Supporting next packet fields, for example in case of the IGMPv3,
-    would require to change the interface method signature and all the clients that are using it.
-    \item Nullable parameters - Some of the parameters are nullable depending on the type of the IGMP message.
-    Implementation must contain additional logic for handling of the invalid combinations of the parameters
-    and client must be aware of the valid combinations.
-    Additionally, default values that override null values are not transparent to client and must be explicitly
-    documented.
-    \item Long list of parameters is error-prone.
-    If used technology does not support named parameters, client must be aware of the ordering.
-    \item Violation of the Single Responsibility Principle (SRP) - Such methods tends to grow over time
-    and usually contain more than one responsibility.
+    \item Occurrence of God Classes/Functions:
+    The implementation of all logic within a single method often results in complexity and extensive branching.
+    Understanding and maintaining such logic can be challenging in the long term.
+    \item Difficulty in API Evolution:
+    Adapting the API to support additional packet fields, as seen in the case of IGMPv3,
+    necessitates altering the interface method signature and updating all clients utilizing it.
+    \item Nullable parameters:
+    The presence of nullable parameters, dependent on the IGMP message type, requires additional logic
+    in the implementation to handle invalid parameter combinations.
+    Clients must be aware of valid combinations, and default values overriding null values may not be transparent
+    to clients unless explicitly documented.
+    \item Error-prone long parameter lists:
+    In the absence of support for named parameters in the chosen technology, a long list of parameters becomes
+    error-prone as clients must be mindful of the correct ordering.
+    \item Violation of the Single Responsibility Principle (SRP):
+    Such methods tend to accumulate responsibilities over time, violating the SRP by encompassing more than one
+    distinct responsibility.
 \end{itemize}
 
 Common use-cases of the Singleton Interface Method:
 
 \begin{itemize}
-    \item Stable API that is not expected to change in the future,
-    and it does not contain complex branching in the implementation.
-    There is just single behaviour that is implemented by the service without customizations or subtypes.
-    \item Simple services or utility functions with small number of non-null parameters.
+    \item Stable API with limited change expectations:
+    The method is suitable for a stable API not anticipated to undergo significant changes in the future.
+    It works well when there is a single behavior implemented by the service without customizations or subtypes.
+    \item Simple services or utility functions:
+    The method is appropriate for simple services or utility functions with a small number of non-null parameters,
+    where complexity and branching are minimal.
 \end{itemize}
