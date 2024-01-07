@@ -1,63 +1,73 @@
-In the Model-Driven API, in the first step the developer writes model of the operations, usually using the
-specialized language used for this purpose.
-Afterward there are 2 possible ways how the model can be used depending on the modeling language and technology stack:
+In the Model-Driven API, the developer initiates the process by creating a model of the operations using
+a specialized language designed for this purpose.
+Subsequently, there are two possible approaches to utilizing the model,
+depending on the modeling language and technology stack:
 
 \begin{enumerate}
-    \item Through generation phase: The API generator is used for generation of the code of the API\@
-    (entities that represent input and output structure of the modeled operations).
-    To be able to consume and implement Model-Driven API, the developer must execute the generation phase.
-    \item Directly by target technology: The API generator is not used and the model is directly parsed
-    by the target technology compiler or interpreter.
-    In this case model is usually more tightly coupled with the source code of the API implementation
-    than in the previous case.
+    \item Through generation phase:
+    The API generator is employed to generate the code of the API, producing entities that represent
+    the input and output structures of the modeled operations.
+    To consume and implement the Model-Driven API, developers must execute the generation phase.
+    \item Directly by target technology:
+    The API generator is bypassed, and the model is directly parsed by the compiler or interpreter
+    of the target technology.
+    In this scenario, the model is usually more tightly coupled with the source code of the API implementation
+    compared to the first approach.
 \end{enumerate}
 
-The implementation of API is either written manually by the developer or in some simpler cases it can be generated
-directly from the model.
-For example, implementation of basic Create/Read/Update/Delete (CRUD) database or user-facing operations can usually
-be generated directly from the model.
+The API can be implemented either manually by the developer or, in simpler cases, generated directly from the model.
+For example, the implementation of fundamental Create/Read/Update/Delete (CRUD) operations for a database
+or user-facing operations are often directly generated from the model.
 
 Benefits of the Model-Driven API:
 
 \begin{itemize}
-    \item Consistency of the API - The API is consistent by design, because it is generated from the model
-    (for example, syntax and used design patterns).
-    The design patterns and approaches that are described in this guide are automatically applied.
-    The API clients may also use the same model to generate or verify API calls.
-    \item Documentation - The model can be used to generate documentation of the API\@.
-    The whole process can be automated.
-    \item Technology-agnostic - The model is usually technology-agnostic, so it can be used to generate API
+    \item Consistency of the API:
+    The API is inherently consistent because it is generated from the model, ensuring uniform syntax
+    and design patterns.
+    The design patterns and approaches described in the guide are automatically applied,
+    promoting a consistent API structure.
+    API clients can also use the same model to generate or verify API calls.
+    \item Documentation:
+    The model serves as a foundation for generating API documentation, allowing for an automated documentation process.
+    \item Technology-agnostic:
+    The model is typically technology-agnostic, enabling the generation of APIs
     in various programming languages and technologies.
-    \item Reduction of boilerplate code - The model can be used to generate API implementation including
-    input/output entities, which reduces the amount of boilerplate code that the developer has to write.
-    Some generators also support full or partial generation of queries and mutations.
-    \item It is less error-prone than manual implementation - The model is usually validated by the generator
-    before the code is generated.
-    Additionally, the API itself is constrained by the model, which reduces the possibility of errors.
+    \item Reduction of boilerplate code:
+    The model can be leveraged to generate API implementation, including input/output entities,
+    reducing the amount of boilerplate code that developers need to write.
+    Some generators may also support full or partial generation of queries and mutations.
+    \item Less error-prone than manual implementation:
+    The model is usually validated by the generator before code generation.
+    Moreover, the API itself is constrained by the model, lowering the likelihood of errors.
 \end{itemize}
 
 Drawbacks of the Model-Driven API:
 
 \begin{itemize}
-    \item Limited flexibility - The model is usually more constrained than the API implementation.
-    It may not be possible to express all the features of the API in the model.
-    \item Additional complexity - The model adds next layer of complexity.
-    The developer has to learn the modeling language and use the API generator when the model changes.
-    Because of this additional complexity, the Model-Driven API is usually not used in the internal API between
-    components in the same service.
-    It is more suitable for the external API connecting other services and clients.
-    \item Dependency on the model and tools - The development process becomes heavily dependent on the modeling and
-    generation tools.
+    \item Limited flexibility:
+    The model is often more constrained than the API implementation, limiting the expression
+    of all features of the API in the model.
+    \item Additional complexity:
+    Introducing a modeling layer adds complexity.
+    Developers must learn the modeling language and use the API generator when the model changes.
+    Due to this added complexity, the Model-Driven API is typically not used for internal APIs between components
+    within the same service.
+    It is more suitable for external APIs connecting different services and clients.
+    \item Dependency on the model and tools:
+    The development process becomes heavily reliant on modeling and generation tools.
     If these tools are not maintained or become obsolete, it could pose significant challenges.
 \end{itemize}
 
 Common use-cases of the Model-Driven API:
 
 \begin{itemize}
-    \item If service consists of multiple components that uses different technologies or programming languages,
-    the Model-Driven API can be used to generate API for each component in the target technology.
-    \item Model-Driven API is handy for generation of the repetitive code (for example, CRUD operations)
-    to reduce the amount of boilerplate code and assure consistency.
-    For example, if there is complex data-tree, and you need to implement CRUD operations for each node in the tree,
-    it would be very tedious to write all the API and its implementation manually.
+    \item Multicomponent services:
+    When a service comprises multiple components using different technologies or programming languages,
+    the Model-Driven API can be employed to generate APIs for each component in the target technology.
+    \item Repetitive code generation:
+    Model-Driven API is beneficial for generating repetitive code, such as CRUD operations,
+    reducing boilerplate code and ensuring consistency.
+    For instance, if dealing with a complex data tree and needing to implement CRUD operations for each node,
+    Model-Driven API simplifies the process.
 \end{itemize}
