@@ -5,8 +5,8 @@ The Parameter Object is usually immutable and contains only accessor methods.
 
 Figure~\ref{fig:group_single_entity} demonstrates extraction of 3 parameters \textit{igmpType},
 \textit{maxResponseTime} and \textit{groupAddress} into a new class named \textit{IgmpPacket}.
-\textit{IgmpPacketWriter} service is then refactored to accept 2 parameters instead of 5 in the method writeIgmpPacket:
-\textit{igmpPacket} and \textit{outputStream}.
+\textit{IgmpPacketWriter} service is then refactored to accept 2 parameters instead of 5 in the method
+\textit{writeIgmpPacket}: \textit{igmpPacket} and \textit{outputStream}.
 Class \textit{IgmpPacket} also contains Factory methods for simple creation of different types of IGMP packets.
 These Factory methods are responsible for filling in correct constant values for each type of IGMP packet.
 

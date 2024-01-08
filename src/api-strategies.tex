@@ -1,15 +1,15 @@
-API Strategies is based on creation of multiple subtypes of the service.
-It uses Strategy design pattern to create a set of implementations that implement the same service definition\@.
+API Strategies are based on creating multiple subtypes of the service using the Strategy design pattern.
+This approach involves generating a set of implementations that adhere to the same service definition.
 
-The Figure~\ref{fig:strat_structure_and_behaviour} shows the example of the API Strategies.
-The service \textit{IgmpPacketWriter} is decomposed into 3 subtypes: \textit{IgmpLeaveGroupWriter},
-\textit{IgmpQueryMembershipWriter}, and \textit{IgmpReportMembershipWriter} - each of them implements
-the \textit{writePacket} method in a different way.
-The subtypes of \textit{IgmpPacketWriter} are also bound to corresponding subtypes of the \textit{IgmpPacket} class
-using template parameter \textit{T} that must extend \textit{IgmpPacket} type.
-Afterward, specific implementations of the service can work directly with the correct subtype of the packet.
-Parts of the implementations that are common in all subtypes of service can be moved to additional abstract
-class that realizes \textit{IgmpPacketWriter} interface (using Template design pattern).
+Figure~\ref{fig:strat_structure_and_behaviour} illustrates an example of API Strategies.
+The service \textit{IgmpPacketWriter} is decomposed into three subtypes: \textit{IgmpLeaveGroupWriter},
+\textit{IgmpQueryMembershipWriter}, and \textit{IgmpReportMembershipWriter},
+each implementing the \textit{writePacket} method in a distinct way.
+These subtypes of \textit{IgmpPacketWriter} are associated with corresponding subtypes of the \textit{IgmpPacket} class,
+utilizing a template parameter \textit{T} that must extend the \textit{IgmpPacket} type.
+Consequently, specific implementations of the service can interact directly with the correct subtype of the packet.
+Common elements across all service subtypes can be abstracted into an additional abstract class that realizes
+the \textit{IgmpPacketWriter} interface, employing the Template design pattern.
 
 \begin{figure}[!htb]
     \centering
@@ -22,30 +22,31 @@ class that realizes \textit{IgmpPacketWriter} interface (using Template design p
 Benefits of the API Strategies:
 
 \begin{itemize}
-    \item This approach can easily be combined with other methodologies that focus on design of interface
-    method parameters.
-    \item Extensibility of the API - It is possible to add new implementations of the service
-    without altering existing implementations.
-    \item Testing experimental implementations is much easier using this approach than by passing additional arguments
-    to the interface methods or adding new interface methods.
+    \item Integration with other patterns:
+    This approach seamlessly integrates with methodologies focusing on the design of interface method parameters.
+    \item API extensibility:
+    New service implementations can be added without modifying existing ones.
+    \item Experimental implementations:
+    Testing experimental implementations becomes more straightforward compared to passing additional arguments
+    to interface methods or introducing new interface methods.
 \end{itemize}
 
 Drawbacks of the API Strategies:
 
 \begin{itemize}
-    \item Service implementation usually contain also code related to the lifecycle of the service
-    (e.g.\ initialization and destruction of the service).
-    This lifecycle must be managed for all versions of the service.
-    \item Multiple implementations of the service must be distinguished using another identifier.
-    This problem is solved by Dependency Injection (DI) framework that supports assigning of the additional qualifier
-    to the service implementation.
-    \item Maintaining multiple implementations of the service can be difficult because of the code duplication
-    between the implementations.
-    Usually some parts of the implementation are common in all implementations and can be moved to the template class.
-    However, the goal of the API Strategies is to create services implementations that are as isolated as possible.
-    This can result in either code duplication or in the creation of additional abstraction layers that are difficult
-    to maintain.
-    Figure~\ref{fig:strat_infected_tree} shows an example of the more complex service inheritance tree.
+    \item Management of service lifecycle:
+    Service implementations often include code related to the service lifecycle (e.g., initialization and destruction),
+    necessitating management across all service versions.
+    \item Distinguishing of service implementations:
+    Distinguishing between multiple service implementations requires an additional identifier,
+    This problem is usually addressed by Dependency Injection (DI) frameworks supporting the assignment of additional
+    qualifiers to service implementations.
+    \item Maintenance of multiple implementations:
+    Maintaining multiple implementations can be challenging due to code duplication.
+    While common implementation parts can be moved to a template class, API Strategies aim to create isolated
+    service implementations, potentially resulting in either code duplication or the creation
+    of intricate abstraction layers.
+    Figure~\ref{fig:strat_infected_tree} illustrates a more complex service inheritance tree.
 \end{itemize}
 
 \begin{figure}[!htb]
@@ -59,12 +60,14 @@ Drawbacks of the API Strategies:
 Common use-cases of the API Strategies:
 
 \begin{itemize}
-    \item Multiple implementations in different contexts are required.
-    For example, there could be single generic service that defines writing of the packet to the network interface.
-    However, there could be multiple types of the network interfaces (e.g.\ Ethernet, Wi-Fi, etc.), each of them
-    requiring different strategy for writing the packet to the interface.
-    \item There could be multiple implementations of the service that works in different environments.
-    For example, the service that performs system calls must be implemented differently under different
-    versions of the operating system if certain system calls are different.
-    \item Creation of mocked implementations of the service for testing purposes (unit or integration tests).
+    \item Implementation per context:
+    Multiple implementations are needed in different contexts, such as a generic service defining
+    packet writing to a network interface.
+    Various types of network interfaces (e.g., Ethernet, Wi-Fi) may require different strategies for packet writing.
+    \item Implementation per environment:
+    Different environments may necessitate multiple implementations of the service.
+    For instance, a service performing system calls must be implemented differently under various
+    operating system versions if certain system calls differ.
+    \item Testing:
+    Creation of mocked implementations for testing purposes, including unit or integration tests.
 \end{itemize}
