@@ -1,14 +1,14 @@
-Parameter Object is a design pattern that is used to group logically related method parameters into a separate entity
-(usually data class or structure).
-The method is then refactored to accept a single parameter object instead of multiple parameters.
-The Parameter Object is usually immutable and contains only accessor methods.
+The Parameter Object is a design pattern utilized to group logically related method parameters into a separate entity,
+typically a data class or structure.
+Subsequently, the method is refactored to accept a single parameter object rather than multiple parameters.
+This Parameter Object is typically immutable and contains only accessor methods.
 
-Figure~\ref{fig:group_single_entity} demonstrates extraction of 3 parameters \textit{igmpType},
-\textit{maxResponseTime} and \textit{groupAddress} into a new class named \textit{IgmpPacket}.
-\textit{IgmpPacketWriter} service is then refactored to accept 2 parameters instead of 5 in the method
+Figure~\ref{fig:group_single_entity} illustrates the extraction of three parameters, namely \textit{igmpType},
+\textit{maxResponseTime}, and \textit{groupAddress}, into a new class named \textit{IgmpPacket}.
+The \textit{IgmpPacketWriter} service is then refactored to accept two parameters instead of five in the method
 \textit{writeIgmpPacket}: \textit{igmpPacket} and \textit{outputStream}.
-Class \textit{IgmpPacket} also contains Factory methods for simple creation of different types of IGMP packets.
-These Factory methods are responsible for filling in correct constant values for each type of IGMP packet.
+Additionally, the \textit{IgmpPacket} class includes Factory methods for the straightforward creation of various types
+of IGMP packets, responsible for filling in correct constant values for each type.
 
 \begin{figure}[!htb]
     \centering
@@ -18,15 +18,13 @@ These Factory methods are responsible for filling in correct constant values for
     \label{fig:group_single_entity}
 \end{figure}
 
-Instead of using Factory methods, it is possible to use Builder pattern to create
-instances of \textit{IgmpPacket} class.
-Builder pattern is more suitable if there are many optional parameters that can be set by client.
-Figure~\ref{fig:group_build_single_entity} shows how Builder pattern can be used to create an instance
-of \textit{IgmpPacket} class.
-The whole building process happens in the \textit{build} method that is called by client after setting all necessary
-parameters.
-Building method usually contains logic around validation of parameters, setting default values, or transformation
-of values into a different format.
+Instead of utilizing Factory methods, the Builder pattern can be employed to create instances
+of the \textit{IgmpPacket} class, especially when there are many optional parameters that clients can set.
+Figure~\ref{fig:group_build_single_entity} demonstrates how the Builder pattern can be used in creating
+an instance of the \textit{IgmpPacket} class.
+The entire building process occurs in the \textit{build} method, invoked by the client after setting
+all necessary parameters.
+This method often encompasses logic related to parameter validation, default value assignment, or value transformation.
 
 \begin{figure}[!htb]
     \centering
@@ -36,15 +34,11 @@ of values into a different format.
     \label{fig:group_build_single_entity}
 \end{figure}
 
-The following Figures~\ref{fig:group_build_structure} displays next iteration Builder design pattern on this example.
-In this case, builder class creates specific instance of \textit{IgmpPacket} subtype - \textit{IgmpLeaveGroupPacket},
-\textit{IgmpReportMembershipPacket}, or \textit{IgmpQueryMembershipPacket}.
-Definition of multiple subtypes of \textit{IgmpPacket} class is better approach than relying on single entity
-if there are multiple structural differences between IGMP packet types or if it is necessary to bound some behavior
-to specific type of IGMP packet.
-If there is some common behavior or fields that are shared between all IGMP packet types, it is additionally good
-to move them to newly created template class that is placed between \textit{IgmpPacket} and its subtypes
-in the inheritance structure.
+Figure~\ref{fig:group_build_structure} displays the next iteration of the Builder design pattern.
+In this case, the builder class creates specific instances of \textit{IgmpPacket} subtypes -
+\textit{IgmpLeaveGroupPacket}, \textit{IgmpReportMembershipPacket}, or \textit{IgmpQueryMembershipPacket}.
+Defining multiple subtypes of the \textit{IgmpPacket} class is a superior approach when there are structural differences
+between IGMP packet types or when specific behavior needs to be associated with a particular type.
 
 \begin{figure}[!htb]
     \centering
@@ -54,16 +48,12 @@ in the inheritance structure.
     \label{fig:group_build_structure}
 \end{figure}
 
-Sometimes it is better to move responsibility for writing IGMP packet to output stream from \textit{IgmpPacketWriter}
-to \textit{IgmpPacket} itself.
-This is demonstrated in the Figure~\ref{fig:group_write_from_igmp_packet}.
-The advantages of this approach is that it is possible to use polymorphism to invoke correct method for writing
-IGMP packet to output stream and \textit{IgmpPacketWriter} does not have to access exposed fields
-of \textit{IgmpPacket} class.
-The disadvantage is that \textit{IgmpPacket} is now tightly coupled with \textit{OutputStream} and maybe
-other serialization business logic.
-Since \textit{IgmpPacket} is part of the public API such coupling between implementation and API can be problematic
-in the future from the view of dependency management and code maintainability.
+At times, it is advantageous to shift the responsibility for writing IGMP packets to the output stream
+from \textit{IgmpPacketWriter} to \textit{IgmpPacket} itself, as illustrated
+in Figure~\ref{fig:group_write_from_igmp_packet}.
+While this approach enables the use of polymorphism to invoke the correct method for writing IGMP packets,
+it introduces tight coupling between \textit{IgmpPacket} and \textit{OutputStream} with serialization business logic,
+potentially leading to issues in dependency management and code maintainability.
 
 \begin{figure}[!htb]
     \centering
@@ -73,18 +63,15 @@ in the future from the view of dependency management and code maintainability.
     \label{fig:group_write_from_igmp_packet}
 \end{figure}
 
-The last variation of Parameter Object approach is shown in the Figure~\ref{fig:group_visitor} with
-applied Visitor design pattern.
-In this scenario, \textit{IgmpPacket} class accepts \textit{IgmpPacketProcessor} as a parameter
+The final variation of the Parameter Object approach is depicted in Figure~\ref{fig:group_visitor},
+incorporating the Visitor design pattern.
+In this scenario, the \textit{IgmpPacket} class accepts \textit{IgmpPacketProcessor} as a parameter
 in the method \textit{process}.
-\textit{IgmpPacketProcessor} represents the interface and \textit{IgmpPacketWriter} implements this interface
-- there is one method implementation for each subtype of \textit{IgmpPacket}.
-The advantage of this approach in comparison with previous on Figure~\ref{fig:group_write_from_igmp_packet}
-is that \textit{IgmpPacket} is not directly coupled with implementation logic.
-Rather, there is another abstraction layer between \textit{IgmpPacket} and \textit{IgmpPacketWriter} in form
-of generic visitor interface \textit{IgmpPacketProcessor}.
-Disadvantage of this approach is the presence of double-dispatching mechanism and the additional implementation
-complexity connected with it.
+\textit{IgmpPacketProcessor} represents the interface, and \textit{IgmpPacketWriter} implements this interface
+with one method implementation for each subtype of \textit{IgmpPacket}.
+The advantage lies in introducing an abstraction layer, the generic visitor interface \textit{IgmpPacketProcessor},
+between \textit{IgmpPacket} and \textit{IgmpPacketWriter} - interface is not directly coupled with implementation.
+However, the drawback is the presence of a double-dispatching mechanism, adding complexity to the implementation.
 
 \begin{figure}[!htb]
     \centering
@@ -97,27 +84,50 @@ complexity connected with it.
 Benefits of the Parameter Object design pattern:
 
 \begin{itemize}
-    \item Grouping of closely related parameters into a single entity improves readability of the code.
-    It is also possible to create multiple Parameter Objects that are used in the same method.
-    \item Parameter Object can be reused in multiple interface methods and also in the implementation of these methods.
-    \item It makes API less fragile, if construction of Parameter Object is done by Builder or Factory pattern
-    and not directly by calling constructor of the created class.
+    \item Enhanced code readability:
+    Grouping closely related parameters into a single entity significantly improves the readability of the code.
+    This organizational approach makes it easier to understand the purpose and context of the parameters.
+    Additionally, the use of multiple Parameter Objects in the same method is possible, enhancing code structure.
+    \item Reusability across interfaces:
+    Parameter Objects can be effectively reused across multiple interface methods and their
+    corresponding implementations.
+    This reusability fosters consistency and reduces redundancy in code.
+    \item API robustness:
+    Constructing Parameter Objects using the Builder or Factory pattern, rather than directly calling the constructor
+    of the created class, makes the API less fragile.
+    This ensures a more robust and adaptable architecture.
 \end{itemize}
 
 Drawbacks of the Parameter Object design pattern:
 
 \begin{itemize}
-    \item Risk of encapsulation violation if Parameter Object is mutable.
-    \item Parameter Object can be overused, and it can lead to creation of too many classes.
-    \item Higher risk of exposing implementation details though API that uses this design pattern.
+    \item Encapsulation risks:
+    If a Parameter Object is mutable, there is a risk of encapsulation violation.
+    Modifications to the object's state could lead to unintended side effects,
+    impacting the stability and reliability of the code.
+    \item Overuse concerns:
+    Excessive use of Parameter Objects may lead to the creation of an abundance of classes, potentially complicating
+    the codebase.
+    Careful consideration should be given to whether each parameter grouping truly warrants a distinct object.
+    \item Exposure of implementation details:
+    Utilizing this design pattern raises the risk of exposing implementation details through the API\@.
+    Developers need to exercise caution to maintain a clear separation between the public API and internal
+    implementation specifics.
 \end{itemize}
 
 Common use-cases of the Parameter Object design pattern:
 
 \begin{itemize}
-    \item Compressing long list of parameters into single or just few Parameter Objects.
-    \item Grouping optional parameters into Parameter Object and this way avoid method overloading
-    and existence of nullable parameters.
-    \item Assuring consistency of method definitions by grouping the repetitive list of parameters
-    into Parameter Object.
+    \item Parameter compression:
+    When dealing with a long list of parameters, the Parameter Object pattern is useful for compressing them into
+    a single or just a few Parameter Objects.
+    This simplifies method signatures and enhances code conciseness.
+    \item Grouping optional parameters:
+    Parameter Objects are effective in grouping optional parameters, eliminating the need for method overloading
+    and avoiding the presence of nullable parameters.
+    This results in cleaner and more maintainable code.
+    \item Consistency assurance:
+    By grouping repetitive lists of parameters into Parameter Objects, the design pattern helps ensure consistency
+    across method definitions.
+    This reduces the likelihood of errors and promotes a standardized approach to parameter handling.
 \end{itemize}
