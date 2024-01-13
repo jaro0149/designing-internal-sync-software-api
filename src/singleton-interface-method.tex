@@ -15,7 +15,7 @@ depending on the \textit{igmpType} parameter's value.
     \centering
     \includegraphics[width=1.0
     \textwidth]{sing_write_igmp_packet}
-    \caption{Singleton Interface Method: Writing IGMP packet using }
+    \caption{Singleton Interface Method: Writing IGMP packet to output stream}
     \label{fig:sing_write_igmp_packet}
 \end{figure}
 
@@ -53,8 +53,14 @@ Drawbacks of the Singleton Interface Method:
     \item Occurrence of God Classes/Functions:
     The implementation of all logic within a single method often results in complexity and extensive branching.
     Understanding and maintaining such logic can be challenging in the long term.
+    The concepts of Long Methods and Long Classes were introduced by Martin Fowler in the book Refactoring:
+    Improving the Design of Existing Code~\cite[Chapter~3]{fowler1999refactoring}.
+    While this book doesn't explicitly use the term God Classes it introduces the idea of code smells and provides
+    guidance on improving the design of code, which includes avoiding the creation of large, monolithic classes.
+    Over time, as the software development community has grown and evolved, the term God Class has become more
+    prevalent.
     \item Difficulty in API Evolution:
-    Adapting the API to support additional packet fields, as seen in the case of IGMPv3,
+    Adapting the API to support additional packet fields, as seen in the case of IGMPv3~\cite{rfc3376},
     necessitates altering the interface method signature and updating all clients utilizing it.
     \item Nullable parameters:
     The presence of nullable parameters, dependent on the IGMP message type, requires additional logic
@@ -67,6 +73,8 @@ Drawbacks of the Singleton Interface Method:
     \item Violation of the Single Responsibility Principle (SRP):
     Such methods tend to accumulate responsibilities over time, violating the SRP by encompassing more than one
     distinct responsibility.
+    SRP was described by Robert C. Martin in the book Agile software development: principles, patterns,
+    and practices~\cite[Chapter~8]{martin2003agile}.
 \end{itemize}
 
 Common use-cases of the Singleton Interface Method:

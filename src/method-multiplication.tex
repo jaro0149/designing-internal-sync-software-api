@@ -21,7 +21,7 @@ simplifying the input parameter checks in the implementation logic.
     \label{fig:mult_decomposition_by_type}
 \end{figure}
 
-In Figure~\ref{fig:mult_decomposition_by_type}, the writing of the IGMP QueryMembership message remains complex due
+In Figure~\ref{fig:mult_decomposition_by_type}, the writing of the IGMP Query Membership message remains complex due
 to two optional parameters: \textit{maxResponseTime} and \textit{groupAddress}.
 The \textit{groupAddress} is only \textit{0.0.0.0} in the case of the General Query message; otherwise,
 it is a mandatory parameter.
@@ -52,6 +52,11 @@ In such cases, using different identifiers for the methods enhances readability.
     \label{fig:mult_decomposition_by_default_values}
 \end{figure}
 
+Other strategies for decomposition of methods include Replace Parameter with Explicit Methods or
+Separate Query from Modifier refactoring patterns.
+They are described in detail in the Refactoring: Improving the Design of Existing Code
+book~\cite[Chapter~10]{fowler1999refactoring}.
+
 Benefits of the Method Multiplication:
 
 \begin{itemize}
@@ -78,12 +83,18 @@ Drawbacks of the Method Multiplication:
     \item Client decision overhead:
     Clients must decide which method to call, often necessitating the implementation and maintenance of another
     Facade layer on top of the API to hide the complexity around correct interface method calls.
+    Read more about the Facade design pattern in the book Pattern-Oriented Software Architecture, Volume 4:
+    A Pattern Language for Distributed Computing ~\cite[Chapter~12]{posa4}.
     \item Risk of Spaghetti Code in God Classes:
     The presence of God Classes may lead to Spaghetti Code, characterized by a lack of structure and organization.
     This can result from rushed or unplanned coding, leading to a complex and tangled control structure.
     Figure~\ref{fig:mult_spaghetti_code} shows an example of the Spaghetti Code in the early stage.
     There are multiple shared procedures that are called by API methods with unclear control flow.
     Internal functions tend to contain a lot of parameters that are passed between them.
+    \footnote{
+        The term Spaghetti Code is often attributed to computer scientist Edsger Dijkstra.
+        He used it in his 1972 Turing Award lecture titled The Humble Programmer~\cite{dijkstra1972humble}.
+    }
     \item API Rooting:
     Implementations of interface methods might simply call another common method, potentially internal or represented
     by another public interface method

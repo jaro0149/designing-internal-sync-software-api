@@ -25,7 +25,7 @@ and \textit{addressResolver} parameters.
     \item \textit{packetLogger}:
     This parameter is of type \textit{PacketLogger} which is modeled by another interface.
     The default value of the parameter is set to \textit{PacketLogger.NULL\_LOGGER},
-    a constant that follows the Null Object design pattern.
+    a constant that follows the Null Object design pattern \cite[Chapter~18]{posa4}.
     Figure~\ref{fig:def_null_logger} demonstrates the implementation of this constant, representing an instance
     of the \textit{PacketLogger} subclass \textit{NullPacketLogger} that does not log anything, merely ignoring
     all input calls.
@@ -75,14 +75,14 @@ Drawbacks of the Default Values approach:
 \begin{itemize}
     \item Limited flexibility:
     Default values are static and cannot be changed at runtime.
-    This limitation can impact the flexibility of your code, especially if there is a need to alter these values
+    This limitation can impact the flexibility of the code, especially if there is a need to alter these values
     based on specific conditions or configurations.
     \item Challenges with complex types:
     For some complex types, creating a default implementation may not always be feasible.
     If a type defines a method that returns a value of a certain type, mocking the return type becomes necessary.
     Additionally, in some languages, a type or method can be marked as final, preventing the creation of subclasses
     or the override of specific method implementations.
-    If the type is defined in an external library, updating its constraints can be challenging.
+    If the type is defined in an external library, updating its constraints is challenging.
 \end{itemize}
 
 Common use-cases of the Default Values approach:

@@ -1,4 +1,5 @@
-API Strategies are based on creating multiple subtypes of the service using the Strategy design pattern.
+API Strategies are based on creating multiple subtypes of the service using the Strategy design pattern
+Refer to~\cite[Chapter~18]{posa4} for more details about Strategy and other behavioural patterns.
 This approach involves generating a set of implementations that adhere to the same service definition.
 
 Figure~\ref{fig:strat_structure_and_behaviour} illustrates an example of API Strategies.
@@ -9,7 +10,8 @@ These subtypes of \textit{IgmpPacketWriter} are associated with corresponding su
 utilizing a template parameter \textit{T} that must extend the \textit{IgmpPacket} type.
 Consequently, specific implementations of the service can interact directly with the correct subtype of the packet.
 Common elements across all service subtypes can be abstracted into an additional abstract class that realizes
-the \textit{IgmpPacketWriter} interface, employing the Template design pattern.
+the \textit{IgmpPacketWriter} interface, possibly employing the Template method design pattern
+~\cite[Chapter~18]{posa4}.
 
 \begin{figure}[!htb]
     \centering

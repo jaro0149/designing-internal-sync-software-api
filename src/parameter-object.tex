@@ -2,6 +2,8 @@ The Parameter Object is a design pattern utilized to group logically related met
 typically a data class or structure.
 Subsequently, the method is refactored to accept a single parameter object rather than multiple parameters.
 This Parameter Object is typically immutable and contains only accessor methods.
+The Parameter Object was introduced in the book Refactoring: Improving the Design of Existing Code by Martin Fowler
+as one of the refactoring techniques~\cite[Chapter~10]{fowler1999refactoring}.
 
 Figure~\ref{fig:group_single_entity} illustrates the extraction of three parameters, namely \textit{igmpType},
 \textit{maxResponseTime}, and \textit{groupAddress}, into a new class named \textit{IgmpPacket}.
@@ -9,6 +11,7 @@ The \textit{IgmpPacketWriter} service is then refactored to accept two parameter
 \textit{writeIgmpPacket}: \textit{igmpPacket} and \textit{outputStream}.
 Additionally, the \textit{IgmpPacket} class includes Factory methods for the straightforward creation of various types
 of IGMP packets, responsible for filling in correct constant values for each type.
+More information about the Factory design pattern can be found in~\cite[Chapter~20]{posa4}.
 
 \begin{figure}[!htb]
     \centering
@@ -19,7 +22,8 @@ of IGMP packets, responsible for filling in correct constant values for each typ
 \end{figure}
 
 Instead of utilizing Factory methods, the Builder pattern can be employed to create instances
-of the \textit{IgmpPacket} class, especially when there are many optional parameters that clients can set.
+of the \textit{IgmpPacket} class, especially when there are many optional parameters that clients can set
+~\cite[Chapter~20]{posa4}.
 Figure~\ref{fig:group_build_single_entity} demonstrates how the Builder pattern can be used in creating
 an instance of the \textit{IgmpPacket} class.
 The entire building process occurs in the \textit{build} method, invoked by the client after setting
@@ -37,7 +41,7 @@ This method often encompasses logic related to parameter validation, default val
 Figure~\ref{fig:group_build_structure} displays the next iteration of the Builder design pattern.
 In this case, the builder class creates specific instances of \textit{IgmpPacket} subtypes -
 \textit{IgmpLeaveGroupPacket}, \textit{IgmpReportMembershipPacket}, or \textit{IgmpQueryMembershipPacket}.
-Defining multiple subtypes of the \textit{IgmpPacket} class is a superior approach when there are structural differences
+Defining multiple subtypes of the \textit{IgmpPacket} class is a superior approach if there are structural differences
 between IGMP packet types or when specific behavior needs to be associated with a particular type.
 
 \begin{figure}[!htb]
@@ -72,6 +76,7 @@ with one method implementation for each subtype of \textit{IgmpPacket}.
 The advantage lies in introducing an abstraction layer, the generic visitor interface \textit{IgmpPacketProcessor},
 between \textit{IgmpPacket} and \textit{IgmpPacketWriter} - interface is not directly coupled with implementation.
 However, the drawback is the presence of a double-dispatching mechanism, adding complexity to the implementation.
+Visitor design pattern is described in more detail in~\cite[Chapter~18]{posa4}.
 
 \begin{figure}[!htb]
     \centering
@@ -110,7 +115,8 @@ Drawbacks of the Parameter Object design pattern:
     the codebase.
     Careful consideration should be given to whether each parameter grouping truly warrants a distinct object.
     \item Exposure of implementation details:
-    Utilizing this design pattern raises the risk of exposing implementation details through the API\@.
+    Utilizing this design pattern raises the risk of exposing implementation details through the API\@,
+    if Parameter Object contains some business logic.
     Developers need to exercise caution to maintain a clear separation between the public API and internal
     implementation specifics.
 \end{itemize}

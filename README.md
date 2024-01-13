@@ -12,7 +12,7 @@ The guide is divided into following sections:
 3. Domain Analysis
 4. Singleton Interface Method
 5. Method Multiplication
-6. Bulk Method
+6. Batch Method
 7. Default Values
 8. Parameter Object
 9. API Strategies

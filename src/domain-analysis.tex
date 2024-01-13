@@ -3,7 +3,7 @@ This helps identify required input parameters, return values, and types expresse
 It is also important to capture possible API evolution in the future so that the modeled API is flexible enough
 to support it without drastic changes and breaking backward compatibility.
 
-There are three types of IGMPv2 messages: Membership Query, Membership Report, and Leave Group message.
+There are three types of IGMPv2 messages: Membership Query, Membership Report, and Leave Group message~\cite{rfc2236}.
 All message types follow the same format of the packet header but with different values in the fields.
 The structure of the IGMPv2 packet is depicted in Figure~\ref{fig:igmp_packet}.
 
@@ -11,11 +11,13 @@ The structure of the IGMPv2 packet is depicted in Figure~\ref{fig:igmp_packet}.
 \centering
 \includegraphics[width=1.0
 \textwidth]{igmp_packet}
-\caption{Structure of the IGMPv2 packet}
+\caption{Structure of the IGMPv2 packet \cite{rfc2236}}
 \label{fig:igmp_packet}
 \end{figure}
 
-From the perspective of API design, there are the following key differences between constructed types of packets:
+RFC~2236~\cite{rfc2236} contains a detailed description of the IGMPv2 protocol, its operation, and packet format.
+From the perspective of API design, there are the following key differences between constructed
+types of packets:
 
 \begin{enumerate}
     \item Membership Query:
@@ -27,11 +29,11 @@ From the perspective of API design, there are the following key differences betw
     that is queried by the router.
     \item Membership Report:
     The type field is set to the \textit{0x12} value.
-    Maximum response time is always set to \textit{0} (unused).
+    Maximum response time is always set to \textit{0} (the field is unused).
     The group address should contain a valid multicast address reported by the client.
     \item Leave Group:
     The type field is set to the \textit{0x17} value.
-    Maximum response time is always set to \textit{0} (unused).
+    Maximum response time is always set to \textit{0} (the field is unused).
     The group address should contain a valid multicast address that the client wants to leave.
 \end{enumerate}
 
